@@ -179,6 +179,7 @@
         "cbrain:override-input-string-ruby-regex": {
             "derivatives_prefix": ":relative-path:"
         },
+        "cbrain:plugins-container-bindmount": "/wrapper",
         "cbrain:integrator_modules": {
             "BoutiquesFileTypeVerifier": {
                 "subject_dir": [ "BidsSubject" ],

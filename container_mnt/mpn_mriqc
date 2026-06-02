@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# This script is run before the real mriqc tool.
+# It is named exactly like the tool so it will be
+# invoked first, and at the end it just forwards all
+# of the command line arguments to the real mriqc.
+#
+# For this script to be picked up in the container,
+# the ToolConfig within CBRAIN must add the mounted
+# path to the current folder as an environment variable,
+# to tell apptainer to prepend it to the runtime PATH.
+#
+# E.g. if the boutiques descriptor has
+#
+# "cbrain:plugins-container-bindmount": "/wrapper"
+#
+# then the ToolConfig object should define:
+#
+# APPTAINERENV_PREPEND_PATH=/wrapper
+#
+# Pierre Rioux, June 2026
+
+echo "Starting special renaming of MPN files, if any."
+
+for dir in CbrainBidsSingleSubject/sub-MPN*/ses-*/* ; do
+
+  test -d "$dir" || continue
+  pushd "$dir" >/dev/null
+
+  echo "Checking folder '$dir'..."
+
+  for file in * ; do
+    test -f "$file" || continue
+
+    newname=$( echo "$file" | sed -e 's/_UNIT1/_rec-UNI_T1w/' )
+
+    test "X$newname" = "X$file" && continue
+
+    if test -e "$newname" -o -L "$newname" ; then
+      echo " -> Warning: skipping rename '$file' to '$newname': target name already exists."
+      continue
+    fi
+
+    echo " -> Renaming '$file' to '$newname'"
+    mv "$file" "$newname" || exit 2
+
+  done
+
+  popd >/dev/null
+
+done
+
+echo "Finished special renaming of MPN files"
+
+echo "Starting real mriqc..."
+exec /opt/conda/bin/mriqc "$@"  # this is the path of the tool in the container
+
