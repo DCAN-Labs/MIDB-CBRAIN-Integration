@@ -199,8 +199,9 @@
               "output_dir": "[DERIVATIVES_PREFIX]mriqc"
             },
             "BoutiquesPostProcessingCleaner": [
-                "output_dir",
-                "CbrainBidsSingleSubject"
+                "work",
+                "CbrainBidsSingleSubject",
+                "[MRIQC_OUTPUT_DIR]"
             ],
             "BoutiquesInputCacheCleaner": ["subject_dir"],
             "BoutiquesBidsSingleSubjectMaker": "subject_dir"
