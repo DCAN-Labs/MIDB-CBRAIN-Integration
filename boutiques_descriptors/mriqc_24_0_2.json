@@ -1,12 +1,12 @@
 {
     "name": "MRIQC",
     "description": "MRIQC extracts no-reference IQMs (image quality metrics) from structural (T1w and T2w) and functional MRI (magnetic resonance imaging) data.",
-    "tool-version": "22.0.1",
+    "tool-version": "24.0.2",
     "schema-version": "0.5",
     "url": "https://mriqc.readthedocs.io/en/stable/",
-    "command-line": "true [DERIVATIVES_PREFIX]; mriqc [SUBJECT_DIR] [MRIQC_OUTPUT_DIR] participant --no-sub --n_cpus 1 -w work/[SUBJECT_DIR].mriqc_work [SESSION_ID] [RUN_ID] [TASK_ID] [MODALITIES] [DRY_RUN] [VERBOSE_REPORTS] [MEM_GB] [FLOAT32] [ICA] [FD_THRESH]",
+    "command-line": "true [DERIVATIVES_PREFIX]; mriqc [SUBJECT_DIR] [MRIQC_OUTPUT_DIR] participant --no-sub --n_cpus 1 -w work/[SUBJECT_DIR].mriqc_work [BIDS_FILTER_FILE] [SESSION_ID] [RUN_ID] [TASK_ID] [MODALITIES] [VERBOSE_REPORTS] [DRY_RUN] [MEM_GB] [FLOAT32] [FD_THRESH]",
     "container-image": {
-        "image": "nipreps/mriqc:22.0.1",
+        "image": "nipreps/mriqc:24.0.2",
         "index": "docker://",
         "type": "singularity"
     },
@@ -26,6 +26,15 @@
             "optional": false,
             "type": "String",
             "value-key": "[MRIQC_OUTPUT_DIR]"
+        },
+        {
+            "command-line-flag": "--bids-filter-file",
+            "description": "A JSON file describing custom BIDS input filters using PyBIDS.",
+            "id": "bids_filter_file",
+            "name": "BIDS Filter File",
+            "optional": true,
+            "type": "File",
+            "value-key": "[BIDS_FILTER_FILE]"
         },
         {
             "command-line-flag": "--session-id",
@@ -109,15 +118,6 @@
             "value-key": "[FLOAT32]"
         },
         {
-            "command-line-flag": "--ica",
-            "id": "ica",
-            "name": "Run ICA",
-            "description": "Run ICA on the raw data and include the componentsin the individual reports (slow but potentially very insightful)",
-            "optional": true,
-            "type": "Flag",
-            "value-key": "[ICA]"
-        },
-        {
             "command-line-flag": "--fd_thres",
             "id": "fd_thresh",
             "name": "Framewise Displacement Threshold",
@@ -150,7 +150,6 @@
             "members": [
                 "verbose_reports",
                 "fd_thresh",
-                "ica",
                 "float32",
                 "mem_gb",
                 "dry_run",
