@@ -1,0 +1,172 @@
+{
+    "name": "HBCD_ECG_Pipeline",
+    "schema-version": "0.5",
+    "tool-version": "1.0.0",
+    "author": "Columbia University, Department of Psychiatry",
+    "url": "https://github.com/DCAN-Labs/HBCD_ECG_pipeline",
+    "command-line": "true [DERIVATIVES_PREFIX]; [SubjectDirectory] [ECGOutputDirectoryName] [AnalysisLevel] [ParticipantLabel] [SessionLabel] [Tasks] [Acq] [QualityThreshold] [QcWindowSec]",
+    "description": "The HBCD ECG Pipeline automatically identifies the most likely ECG channel among E125-E128 (using NeuroKit R-peak counts plus a direct correlation-matrix check) and then runs the full ECG QC, RR, HR, and HRV pipeline on the selected channel for each subject/session/task found in a BIDS directory. Files for which no ECG channel can be confidently identified are skipped and logged.",
+    "inputs": [
+      {
+          "description": "The study-wide BIDS directory. In CBRAIN this is also referred to (and used) as the subject directory since a new BIDS dir will be made for the selected subject prior to processing.",
+          "id": "SubjectDirectory",
+          "name": "Subject Directory",
+          "optional": false,
+          "type": "File",
+          "value-key": "[SubjectDirectory]"
+      },
+      {
+          "description": "Name/path of the output directory where preprocessing results, QC figures, and summary CSVs will be saved.",
+          "id": "ECGOutputDirectoryName",
+          "name": "ECG Output Directory Name",
+          "optional": false,
+          "type": "String",
+          "value-key": "[ECGOutputDirectoryName]"
+      },
+      {
+          "description": "Level of analysis to run. Only participant_level is currently supported by the pipeline.",
+          "id": "AnalysisLevel",
+          "name": "Analysis Level",
+          "optional": true,
+          "type": "String",
+          "default-value": "participant_level",
+          "value-choices": ["participant_level", "group_level"],
+          "value-key": "[AnalysisLevel]"
+      },
+      {
+          "command-line-flag": "--participant-label",
+          "description": "Space-delimited list of participant labels to process (with or without the sub- prefix). If omitted, all subjects found in SubjectDirectory are processed.",
+          "id": "ParticipantLabel",
+          "name": "Participant Label",
+          "optional": true,
+          "type": "String",
+          "list": true,
+          "value-key": "[ParticipantLabel]"
+      },
+      {
+          "command-line-flag": "--session-label",
+          "description": "Space-delimited list of session labels to process (with or without the ses- prefix). If omitted, all sessions found in SubjectDirectory are processed.",
+          "id": "SessionLabel",
+          "name": "Session Label",
+          "optional": true,
+          "type": "String",
+          "list": true,
+          "value-key": "[SessionLabel]"
+      },
+      {
+          "command-line-flag": "--tasks",
+          "description": "Task(s) to process, e.g. RS, or RS MMN FACE VEP for multiple tasks.",
+          "id": "Tasks",
+          "name": "Tasks",
+          "optional": true,
+          "type": "String",
+          "list": true,
+          "default-value": ["RS"],
+          "value-key": "[Tasks]"
+      },
+      {
+          "command-line-flag": "--acq",
+          "description": "Acquisition label to process; matches acq-<value> in the BIDS filenames. Default is 'ecg'.",
+          "id": "Acq",
+          "name": "Acquisition Label",
+          "optional": true,
+          "type": "String",
+          "default-value": "ecg",
+          "value-key": "[Acq]"
+      },
+      {
+          "command-line-flag": "--quality-threshold",
+          "description": "ECG quality cutoff (template-match correlation) used for high-quality segment detection. Default is 0.95.",
+          "id": "QualityThreshold",
+          "name": "Quality Threshold",
+          "optional": true,
+          "type": "Number",
+          "default-value": 0.95,
+          "value-key": "[QualityThreshold]"
+      },
+      {
+          "command-line-flag": "--qc-window-sec",
+          "description": "Seconds before/after event markers to show in the marker QC plots. Default is 10.",
+          "id": "QcWindowSec",
+          "name": "QC Window Seconds",
+          "optional": true,
+          "type": "Number",
+          "default-value": 10,
+          "value-key": "[QcWindowSec]"
+      },
+      {
+          "default-value": "derivatives/",
+          "id": "derivatives_prefix",
+          "name": "derivatives_prefix",
+          "description": "Folder(s) to put before the pipeline-specific output folder in CBRAIN's forced browse path (e.g. DataProvider/derivatives/hbcd_ecg). Not passed to the pipeline script itself. Must end in /.",
+          "optional": true,
+          "type": "String",
+          "value-key": "[DERIVATIVES_PREFIX]"
+      }
+      ],
+    "output-files" : [{
+          "id" : "OutputDirectory",
+          "name" : "Output Directory",
+          "description" : "Directory containing per-subject/session/task ECG QC figures, HRV outputs, and summary CSVs.",
+          "path-template" : "[ECGOutputDirectoryName]/[SubjectDirectory]",
+          "optional" : false
+      }],
+    "suggested-resources": {
+        "cpu-cores": 1,
+        "ram": 24,
+        "walltime-estimate": 25000
+    },
+    "tags": {
+        "application-type": [
+            "bids"
+        ],
+        "domain": [
+            "neuroinformatics",
+            "ecg",
+            "developmental"
+        ]
+    },
+    "container-image": {
+        "type": "singularity",
+        "index": "docker://",
+        "image": "dcanumn/hbcd_ecg_pipeline:1.0.0"
+    },
+    "custom": {
+        "cbrain:readonly-input-files": true,
+        "cbrain:author": "Tanya Pandhi <pandh015@umn.edu>",
+        "cbrain:allow_empty_strings": ["derivatives_prefix"],
+        "cbrain:override-input-string-ruby-regex": {
+            "derivatives_prefix": ":relative-path:"
+        },
+        "cbrain:no-run-id-for-outputs": [ "OutputDirectory"],
+        "cbrain:integrator_modules": {
+            "BoutiquesFileTypeVerifier": {
+                "SubjectDirectory": [ "BidsSubject" ]
+            },
+            "BoutiquesFileNameMatcher": {
+                "SubjectDirectory": "^sub-[a-zA-Z0-9_]+$"
+            },
+            "BoutiquesTaskLogsCopier": {
+                "stdout":     "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/stdout.log",
+                "stderr":     "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/stderr.log",
+                "runtime":    "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/runtime_info.properties",
+                "descriptor": "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/boutiques_descriptor.json",
+                "invoke":     "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/boutiques_invoke.json",
+                "jobscript":  "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/job_script.sh",
+                "cbrain_params": "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/cbrain_params.json"
+            },
+            "BoutiquesPostProcessingCleaner": [
+                "[ECGOutputDirectoryName]", "[SubjectDirectory]"
+              ],
+            "BoutiquesOutputFileTypeSetter": {
+                "OutputDirectory": "HbcdEcgOutput"
+            },
+            "BoutiquesForcedOutputBrowsePath" : {
+              "OutputDirectory": "[DERIVATIVES_PREFIX]hbcd_ecg"
+            },
+            "BoutiquesBidsSubjectFileSelector": { "SubjectDirectory": "all_to_keep" },
+            "BoutiquesBidsSingleSubjectMaker": "SubjectDirectory",
+            "BoutiquesOutputCacheCleaner": ["OutputDirectory"]
+        }
+    }
+}
