@@ -4,16 +4,16 @@
     "tool-version": "1.0.0",
     "author": "Columbia University, Department of Psychiatry",
     "url": "https://github.com/DCAN-Labs/HBCD_ECG_pipeline",
-    "command-line": "true [DERIVATIVES_PREFIX]; [BidsDir] [ECGOutputDirectoryName] [AnalysisLevel] [ParticipantLabel] [SessionLabel] [Tasks] [Acq] [QualityThreshold] [QcWindowSec]",
+    "command-line": "true [DERIVATIVES_PREFIX]; [SubjectDirectory] [ECGOutputDirectoryName] [AnalysisLevel] [ParticipantLabel] [SessionLabel] [Tasks] [Acq] [QualityThreshold] [QcWindowSec]",
     "description": "The HBCD ECG Pipeline automatically identifies the most likely ECG channel among E125-E128 (using NeuroKit R-peak counts plus a direct correlation-matrix check) and then runs the full ECG QC, RR, HR, and HRV pipeline on the selected channel for each subject/session/task found in a BIDS directory. Files for which no ECG channel can be confidently identified are skipped and logged.",
     "inputs": [
       {
-          "description": "The input BIDS directory containing subject data. The script searches this directory for files matching sub-*/ses-*/eeg/*task-<TASK>_acq-<ACQ>*_eeg.set.",
-          "id": "BidsDir",
-          "name": "BIDS Directory",
+          "description": "The study-wide BIDS directory. In CBRAIN this is also referred to (and used) as the subject directory since a new BIDS dir will be made for the selected subject prior to processing.",
+          "id": "SubjectDirectory",
+          "name": "Subject Directory",
           "optional": false,
           "type": "File",
-          "value-key": "[BidsDir]"
+          "value-key": "[SubjectDirectory]"
       },
       {
           "description": "Name/path of the output directory where preprocessing results, QC figures, and summary CSVs will be saved.",
@@ -35,7 +35,7 @@
       },
       {
           "command-line-flag": "--participant-label",
-          "description": "Space-delimited list of participant labels to process (with or without the sub- prefix). If omitted, all subjects found in BidsDir are processed.",
+          "description": "Space-delimited list of participant labels to process (with or without the sub- prefix). If omitted, all subjects found in SubjectDirectory are processed.",
           "id": "ParticipantLabel",
           "name": "Participant Label",
           "optional": true,
@@ -45,7 +45,7 @@
       },
       {
           "command-line-flag": "--session-label",
-          "description": "Space-delimited list of session labels to process (with or without the ses- prefix). If omitted, all sessions found are processed.",
+          "description": "Space-delimited list of session labels to process (with or without the ses- prefix). If omitted, all sessions found in SubjectDirectory are processed.",
           "id": "SessionLabel",
           "name": "Session Label",
           "optional": true,
@@ -96,7 +96,7 @@
       },
       {
           "default-value": "derivatives/",
-          "id": "DERIVATIVES_PREFIX",
+          "id": "derivatives_prefix",
           "name": "derivatives_prefix",
           "description": "Folder(s) to put before the pipeline-specific output folder in CBRAIN's forced browse path (e.g. DataProvider/derivatives/hbcd_ecg). Not passed to the pipeline script itself. Must end in /.",
           "optional": true,
@@ -108,7 +108,7 @@
           "id" : "OutputDirectory",
           "name" : "Output Directory",
           "description" : "Directory containing per-subject/session/task ECG QC figures, HRV outputs, and summary CSVs.",
-          "path-template" : "[ECGOutputDirectoryName]",
+          "path-template" : "[ECGOutputDirectoryName]/[SubjectDirectory]",
           "optional" : false
       }],
     "suggested-resources": {
@@ -122,7 +122,7 @@
         ],
         "domain": [
             "neuroinformatics",
-            "eeg",
+            "ecg",
             "developmental"
         ]
     },
@@ -134,29 +134,38 @@
     "custom": {
         "cbrain:readonly-input-files": true,
         "cbrain:author": "Tanya Pandhi <pandh015@umn.edu>",
-        "cbrain:allow_empty_strings": ["DERIVATIVES_PREFIX"],
+        "cbrain:allow_empty_strings": ["derivatives_prefix"],
         "cbrain:override-input-string-ruby-regex": {
-            "DERIVATIVES_PREFIX": ":relative-path:"
+            "derivatives_prefix": ":relative-path:"
         },
+        "cbrain:no-run-id-for-outputs": [ "OutputDirectory"],
         "cbrain:integrator_modules": {
             "BoutiquesFileTypeVerifier": {
-                "BidsDir": [ "BidsDirectory" ]
+                "SubjectDirectory": [ "BidsSubject" ]
+            },
+            "BoutiquesFileNameMatcher": {
+                "SubjectDirectory": "^sub-[a-zA-Z0-9_]+$"
             },
             "BoutiquesTaskLogsCopier": {
-                "stdout":     "[ECGOutputDirectoryName]/.cbrain/stdout.log",
-                "stderr":     "[ECGOutputDirectoryName]/.cbrain/stderr.log",
-                "runtime":    "[ECGOutputDirectoryName]/.cbrain/runtime_info.properties",
-                "descriptor": "[ECGOutputDirectoryName]/.cbrain/boutiques_descriptor.json",
-                "invoke":     "[ECGOutputDirectoryName]/.cbrain/boutiques_invoke.json",
-                "jobscript":  "[ECGOutputDirectoryName]/.cbrain/job_script.sh",
-                "cbrain_params": "[ECGOutputDirectoryName]/.cbrain/cbrain_params.json"
+                "stdout":     "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/stdout.log",
+                "stderr":     "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/stderr.log",
+                "runtime":    "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/runtime_info.properties",
+                "descriptor": "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/boutiques_descriptor.json",
+                "invoke":     "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/boutiques_invoke.json",
+                "jobscript":  "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/job_script.sh",
+                "cbrain_params": "[ECGOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/cbrain_params.json"
+            },
+            "BoutiquesPostProcessingCleaner": [
+                "[ECGOutputDirectoryName]", "[SubjectDirectory]"
+              ],
+            "BoutiquesOutputFileTypeSetter": {
+                "OutputDirectory": "HbcdEcgOutput"
             },
             "BoutiquesForcedOutputBrowsePath" : {
               "OutputDirectory": "[DERIVATIVES_PREFIX]hbcd_ecg"
             },
-            "BoutiquesOutputFileTypeSetter": {
-                "OutputDirectory": "HBCDECGOutput"
-            },
+            "BoutiquesBidsSubjectFileSelector": { "SubjectDirectory": "all_to_keep" },
+            "BoutiquesBidsSingleSubjectMaker": "SubjectDirectory",
             "BoutiquesOutputCacheCleaner": ["OutputDirectory"]
         }
     }
