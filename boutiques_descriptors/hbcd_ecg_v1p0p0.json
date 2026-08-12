@@ -40,7 +40,6 @@
           "name": "Participant Label",
           "optional": true,
           "type": "String",
-          "list": true,
           "value-key": "[ParticipantLabel]"
       },
       {
@@ -48,9 +47,8 @@
           "description": "Space-delimited list of session labels to process (with or without the ses- prefix). If omitted, all sessions found in SubjectDirectory are processed.",
           "id": "SessionLabel",
           "name": "Session Label",
-          "optional": true,
+          "optional": false,
           "type": "String",
-          "list": true,
           "value-key": "[SessionLabel]"
       },
       {
