@@ -4,7 +4,7 @@
     "tool-version": "1.0.0",
     "author": "Columbia University, Department of Psychiatry",
     "url": "https://github.com/DCAN-Labs/HBCD_ECG_pipeline",
-    "command-line": "true [DERIVATIVES_PREFIX]; [SubjectDirectory] [ECGOutputDirectoryName] [AnalysisLevel] [ParticipantLabel] [SessionLabel] [Tasks] [Acq] [QualityThreshold] [QcWindowSec]",
+    "command-line": "true [DERIVATIVES_PREFIX]; hbcd_ecg_pipeline [SubjectDirectory] [ECGOutputDirectoryName] [AnalysisLevel] [ParticipantLabel] [SessionLabel] [Tasks] [Acq] [QualityThreshold] [QcWindowSec]",
     "description": "The HBCD ECG Pipeline automatically identifies the most likely ECG channel among E125-E128 (using NeuroKit R-peak counts plus a direct correlation-matrix check) and then runs the full ECG QC, RR, HR, and HRV pipeline on the selected channel for each subject/session/task found in a BIDS directory. Files for which no ECG channel can be confidently identified are skipped and logged.",
     "inputs": [
       {
