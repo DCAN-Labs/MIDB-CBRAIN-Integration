@@ -102,8 +102,8 @@
       }],
     "suggested-resources": {
         "cpu-cores": 1,
-        "ram": 24,
-        "walltime-estimate": 25000
+        "ram": 5,
+        "walltime-estimate": 300
     },
     "tags": {
         "application-type": [
