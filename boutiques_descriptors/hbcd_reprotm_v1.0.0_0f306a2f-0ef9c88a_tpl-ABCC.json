@@ -278,7 +278,7 @@
     ],
     "cbrain:integrator_modules": {
       "BoutiquesOutputFileTypeSetter": {
-        "reprotm_output_dir": "ReproTMOutput"
+        "reprotm_output_dir": "HbcdReproTMOutput"
       },
       "BoutiquesOutputTagger": {
         "reprotm_output_dir": [
