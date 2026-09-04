@@ -19,13 +19,13 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-# A FileCollection to model the output of a HBCD ECG pipeline
-class ReproTMOutput < FileCollection
+# A FileCollection to model the output of a HBCD ReproTM pipeline
+class HbcdReproTMOutput < FileCollection
 
   Revision_info=CbrainFileRevision[__FILE__] #:nodoc:
 
   def self.pretty_type #:nodoc:
-    "ReproTM Output"
+    "HBCD ReproTM Output"
   end
 
 end
