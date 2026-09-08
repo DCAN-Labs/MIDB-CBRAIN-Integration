@@ -20,7 +20,7 @@
 #
 
 # A FileCollection to model the output of a HBCD ReproTM pipeline
-class HbcdReproTMOutput < FileCollection
+class HbcdReproTmOutput < FileCollection
 
   Revision_info=CbrainFileRevision[__FILE__] #:nodoc:
 

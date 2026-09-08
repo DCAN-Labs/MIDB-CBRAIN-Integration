@@ -206,7 +206,7 @@
       "id": "reprotm_output_dir",
       "description": "Subject/session-level ReproTM output directory containing the final MATLAB and CIFTI label outputs.",
       "optional": false,
-      "path-template": "[OUTPUT_DIR]/ReproTM_0f306a2f-0ef9c88a_tpl-ABCC/"
+      "path-template": "[OUTPUT_DIR]/ReproTM_0f306a2f-0ef9c88a_tpl-ABCC"
     }
   ],
   "groups": [
@@ -267,18 +267,12 @@
   "custom": {
     "cbrain:readonly-input-files": true,
     "cbrain:author": "Tanya Pandhi <pandh015@umn.edu>",
-    "cbrain:allow_empty_strings": [
-      "template_infile"
-    ],
-    "cbrain:override-input-string-ruby-regex": {
-      "template_infile": ":relative-path:"
-    },
     "cbrain:no-run-id-for-outputs": [
       "reprotm_output_dir"
     ],
     "cbrain:integrator_modules": {
       "BoutiquesOutputFileTypeSetter": {
-        "reprotm_output_dir": "HbcdReproTMOutput"
+        "reprotm_output_dir": "HbcdReproTmOutput"
       },
       "BoutiquesOutputTagger": {
         "reprotm_output_dir": [
@@ -288,9 +282,6 @@
       "BoutiquesForcedOutputBrowsePath": {
         "reprotm_output_dir": "[OUTPUT_DIR]"
       },
-      "BoutiquesAllowedExitCodes": [
-        0
-      ],
       "BoutiquesTaskLogsCopier": {
         "stdout": "[OUTPUT_DIR]/ReproTM_0f306a2f-0ef9c88a_tpl-ABCC/sub-[SUBJECT_ID]/ses-[SESSION_ID]/.cbrain/stdout_.log",
         "stderr": "[OUTPUT_DIR]/ReproTM_0f306a2f-0ef9c88a_tpl-ABCC/sub-[SUBJECT_ID]/ses-[SESSION_ID]/.cbrain/stderr.log",
@@ -308,14 +299,7 @@
       ],
       "BoutiquesOutputCacheCleaner": [
         "reprotm_output_dir"
-      ],
-      "BoutiquesInputSubdirMaker": {
-        "bids_dir": {
-          "dirname": "bids",
-          "append_filename": false,
-          "physical_copy": true
-        }
-      }
+      ]
     }
   }
 }
