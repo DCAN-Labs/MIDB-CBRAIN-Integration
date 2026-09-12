@@ -4,7 +4,7 @@
     "tool-version": "26.2.0_d902942d-7a4c379b",
     "schema-version": "0.5",
     "url": "https://xcp-d.readthedocs.io/en/latest/index.html",
-    "command-line": "true [SESSION_ID]; true [SUBJECT_DIR]; true [DERIVATIVES_PREFIX]; mkdir -p work; export FS_LICENSE=$PWD/[FS_LICENSE_FILE]; xcp_d [SUBJECT_PREPROC_FMRI_DIR] [OUTPUT_DIR] participant --omp-nthreads 2 [MODE] [COMBINERUNS] [VERBOSE] [INPUT_TYPE] [TASK] [SMOOTHING] [DESPIKE] [LINC_QC] [MIN_TIME] [NUISANCE] --fs-license-file [FS_LICENSE_FILE] [DUMMY_SCANS] [BPF] [LOWER_BPF] [UPPER_BPF] [BPF_ORDER] [MOTION_FILTER_TYPE] [BAND_STOP_MIN] [BAND_STOP_MAX] [MOTION_FILTER_ORDER] [HEAD_RADIUS] [FD_THRESH] [WARP_SURFACES] [CENSOR_BETWEEN] [BIDS_FILTER] [CREATE_MATRICES] [OUTPUT_LAYOUT] [] -w work --notrack [REPORT_OUTPUT_LEVEL]",
+    "command-line": "true [SESSION_ID]; true [SUBJECT_DIR]; true [DERIVATIVES_PREFIX]; mkdir -p work; export FS_LICENSE=$PWD/[FS_LICENSE_FILE]; xcp_d [SUBJECT_PREPROC_FMRI_DIR] [OUTPUT_DIR] participant --omp-nthreads 2 [MODE] [COMBINERUNS] [VERBOSE] [INPUT_TYPE] [TASK] [SMOOTHING] [DESPIKE] [LINC_QC] [MIN_TIME] [NUISANCE] --fs-license-file [FS_LICENSE_FILE] [DUMMY_SCANS] [BPF] [LOWER_BPF] [UPPER_BPF] [BPF_ORDER] [MOTION_FILTER_TYPE] [BAND_STOP_MIN] [BAND_STOP_MAX] [MOTION_FILTER_ORDER] [HEAD_RADIUS] [FD_THRESH] [WARP_SURFACES] [CENSOR_BETWEEN] [BIDS_FILTER] [CREATE_MATRICES] [OUTPUT_LAYOUT] -w work --notrack [REPORT_OUTPUT_LEVEL]",
     "container-image": {
         "image": "pennlinc/xcp_d:26.2.0",
         "index": "docker://",
