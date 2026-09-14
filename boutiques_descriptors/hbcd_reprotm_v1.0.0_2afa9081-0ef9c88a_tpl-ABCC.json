@@ -259,7 +259,7 @@
   },
   "suggested-resources": {
     "cpu-cores": 2,
-    "ram": 40,
+    "ram": 300,
     "walltime-estimate": 18000
   },
   "custom": {
