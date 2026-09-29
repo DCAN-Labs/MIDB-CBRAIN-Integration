@@ -296,7 +296,10 @@
       ],
       "BoutiquesOutputCacheCleaner": [
         "reprotm_output_dir"
-      ]
+      ],
+      "BoutiquesInputSubdirMaker": {
+                "bids_dir":     {"dirname": "xcp-d", "append_filename": false, "physical_copy": true}
+              }
     }
   }
 }
