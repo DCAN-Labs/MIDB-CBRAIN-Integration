@@ -203,6 +203,9 @@
                 "CbrainBidsSingleSubject",
                 "[MRIQC_OUTPUT_DIR]"
             ],
+            "BoutiquesOutputFilenameRenamer": {
+                "output_dir": [ "subject_dir", "mriqc_output_dir" ]
+            },
             "BoutiquesInputCacheCleaner": ["subject_dir"],
             "BoutiquesBidsSingleSubjectMaker": "subject_dir"
         }
