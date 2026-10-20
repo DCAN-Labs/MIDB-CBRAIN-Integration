@@ -20,7 +20,7 @@
 #
 
 # A FileCollection to model the output of a OSPREY
-class OSPREYOutput < FileCollection
+class OspreyOutput < FileCollection
 
   Revision_info=CbrainFileRevision[__FILE__] #:nodoc:
 

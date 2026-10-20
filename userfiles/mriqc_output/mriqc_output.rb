@@ -21,7 +21,7 @@
 #
 
 # A FileCollection to model the output of a MRIQC
-class MRIQCOutput < FileCollection
+class MriqcOutput < FileCollection
 
   Revision_info=CbrainFileRevision[__FILE__] #:nodoc:
 

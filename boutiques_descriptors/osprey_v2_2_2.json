@@ -141,7 +141,7 @@
                 "SubjectDirectory": "^sub-[a-zA-Z0-9_]+$"
             },
             "BoutiquesOutputFileTypeSetter": {
-                "OutputDirectory": "OSPREYOutput"
+                "OutputDirectory": "OspreyOutput"
             },
             "BoutiquesForcedOutputBrowsePath" : {
               "OutputDirectory": "[DERIVATIVES_PREFIX]osprey"

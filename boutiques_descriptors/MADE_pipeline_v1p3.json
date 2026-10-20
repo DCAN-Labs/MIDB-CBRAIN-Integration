@@ -128,7 +128,7 @@
                 "jobscript":  "[MADEOutputDirectoryName]/[SubjectDirectory]/.cbrain/job_script.sh"
             },
             "BoutiquesOutputFileTypeSetter": {
-                "OutputDirectory": "MADEOutput"
+                "OutputDirectory": "MadeOutput"
             },
             "BoutiquesForcedOutputBrowsePath" : {
               "OutputDirectory": "[DERIVATIVES_PREFIX]made"

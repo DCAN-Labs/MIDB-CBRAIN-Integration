@@ -20,7 +20,7 @@
 #
 
 # A FileCollection to model the output of a MADE
-class MADEOutput < FileCollection
+class MadeOutput < FileCollection
 
   Revision_info=CbrainFileRevision[__FILE__] #:nodoc:
 

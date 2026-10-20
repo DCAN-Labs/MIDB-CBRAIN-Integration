@@ -140,7 +140,7 @@
                 "[MADEOutputDirectoryName]", "[SubjectDirectory]"
               ],
             "BoutiquesOutputFileTypeSetter": {
-                "OutputDirectory": "MADEOutput"
+                "OutputDirectory": "MadeOutput"
             },
             "BoutiquesForcedOutputBrowsePath" : {
               "OutputDirectory": "[DERIVATIVES_PREFIX]made"

@@ -20,12 +20,12 @@
 #
 
 # A FileCollection to model the output of a MADE
-class HBCDQCOutput < FileCollection
+class HbcdqcOutput < FileCollection
 
-    Revision_info=CbrainFileRevision[__FILE__] #:nodoc:
-  
-    def self.pretty_type #:nodoc:
-      "HBCD QC Output"
-    end
-  
+  Revision_info=CbrainFileRevision[__FILE__] #:nodoc:
+
+  def self.pretty_type #:nodoc:
+    "HBCD QC Output"
   end
+
+end

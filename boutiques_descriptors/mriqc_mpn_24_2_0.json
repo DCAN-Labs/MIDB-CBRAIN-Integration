@@ -193,7 +193,7 @@
                 "subject_dir": "^sub-[a-zA-Z0-9_]+$"
             },
             "BoutiquesOutputFileTypeSetter": {
-                "output_dir": "MRIQCOutput"
+                "output_dir": "MriqcOutput"
             },
             "BoutiquesForcedOutputBrowsePath" : {
               "output_dir": "[DERIVATIVES_PREFIX]mriqc"

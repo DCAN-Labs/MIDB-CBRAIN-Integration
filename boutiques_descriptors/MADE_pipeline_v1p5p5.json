@@ -137,7 +137,7 @@
                 "cbrain_params": "[MADEOutputDirectoryName]/[SubjectDirectory]/ses-[SessionLabel]/.cbrain/cbrain_params.json"
             },
             "BoutiquesOutputFileTypeSetter": {
-                "OutputDirectory": "MADEOutput"
+                "OutputDirectory": "MadeOutput"
             },
             "BoutiquesForcedOutputBrowsePath" : {
               "OutputDirectory": "[DERIVATIVES_PREFIX]made"

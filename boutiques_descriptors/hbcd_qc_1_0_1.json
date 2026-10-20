@@ -83,7 +83,7 @@
                 "subject_dir": "^sub-[a-zA-Z0-9_]+$"
             },
             "BoutiquesOutputFileTypeSetter": {
-                "output_dir": "HBCDQCOutput"
+                "output_dir": "HbcdqcOutput"
             },
             "BoutiquesForcedOutputBrowsePath" : {
               "output_dir": "[DERIVATIVES_PREFIX]hbcd_qc"

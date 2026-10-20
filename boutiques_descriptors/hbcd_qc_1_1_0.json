@@ -84,7 +84,7 @@
                 "subject_dir": "^sub-[a-zA-Z0-9_]+$"
             },
             "BoutiquesOutputFileTypeSetter": {
-                "output_dir": "HBCDQCOutput"
+                "output_dir": "HbcdqcOutput"
             },
             "BoutiquesTaskLogsCopier": {
                 "stdout":     "[HBCDQC_OUTPUT_DIR]/[SUBJECT_DIR]/ses-[SESSION_ID]/.cbrain/stdout.log",
